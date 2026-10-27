@@ -1,0 +1,102 @@
+{
+  "ticket_id": "TKT-10293",
+  "customer": {
+    "account_id": "ACC-7397",
+    "company": "Gavin Belson Co",
+    "matched_by": "company_name",
+    "plan_tier": "Starter",
+    "health_status": "At Risk",
+    "usage_trend": "Stable",
+    "renewal_date": "2026-07-30",
+    "tam": "Yuki Tanaka",
+    "open_ticket_ids": [
+      "TKT-10121",
+      "TKT-10002"
+    ],
+    "escalation_notes": [
+      "Negative sentiment detected in recent support tickets",
+      "3 consecutive P1 tickets in the last 30 days"
+    ]
+  },
+  "triage": {
+    "issue_type": "Performance",
+    "priority": "P2",
+    "team": "Tier 1 Support",
+    "rationale": "Performance degradation affecting many users; not a full outage, no data loss confirmed, Starter tier, no duplicate, requires more info before deeper investigation.",
+    "escalate": false,
+    "escalation_reason": null,
+    "notify_account_manager": true,
+    "account_manager_reason": "Account health At Risk and renewal in 71 days (within 90‑day window).",
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "needs_more_info": true,
+    "missing_info": [
+      "Scope of the slowdown – web UI, API, or both",
+      "Error messages or logs (timeout messages, HTTP status codes)",
+      "Recent configuration or data source changes in the last 2 weeks",
+      "Specific pipelines most affected or if all pipelines are impacted",
+      "Any observed network or latency issues from the customer's side"
+    ]
+  },
+  "related_ticket_ids": [],
+  "kb_used": [
+    {
+      "doc_id": "products/databridge-pro#api",
+      "why": "Provides API rate limit details and timeout behavior relevant to the reported slow API responses."
+    }
+  ],
+  "kb_discarded": [],
+  "customer_reply": "Hi Avery,\n\nThank you for reaching out. I’m sorry to hear that DataBridge Pro is running much slower for your team.\n\nTo help us diagnose the issue quickly, could you please provide the following details?\n\n1. **Scope of the slowdown** – is the slowness affecting the web UI, the API, or both?\n2. **Error messages or logs** – any timeout messages, HTTP status codes, or logs from the API calls.\n3. **Recent changes** – have you made any configuration changes, added new data sources, or updated pipelines in the last 2 weeks?\n4. **Specific pipelines** – are there particular pipelines that are most affected, or does the issue appear across all pipelines?\n5. **Network/region checks** – have you noticed any latency or connectivity issues from your end (e.g., VPN, proxy)?\n\nIn the meantime, you can try the standard troubleshooting steps outlined in our knowledge base:\n\n* **Step 1 – Identify where the slowness is** – see the “Step 1 – Identify where the slowness is” article for quick checks (status page, client‑side network, etc.).\n* **Step 2 – Review pipeline throughput** – open *Monitoring → Pipelines → [Your pipeline] → Throughput* and note when the degradation started.\n* **Step 3 – Verify source health** – confirm that the source API or database your pipelines pull from is operating normally (no rate‑limit hits, no recent outages).\n\nOnce we have the additional information, we’ll be able to pinpoint the root cause and get your performance back to normal.\n\nThanks for your cooperation – we’ll work on this together.\n\nBest regards,\n[Your Name]\nSupport Engineer, DataBridge Pro",
+  "internal_note": "- Account: ACC-7397 (Gavin Belson Co) – Starter tier (ticket incorrectly marked Business).\n- Health: At Risk; renewal in 71 days (within 90‑day window) – notify TAM Yuki Tanaka.\n- Urgency: P2 (performance degradation). Not a P1 outage; no data loss confirmed.\n- Duplicate: No recent tickets on DataBridge Pro performance; ticket history shows unrelated issues.\n- KB used: products/databridge-pro#api (rate limit info relevant to API timeouts).\n- No deprecated articles were consulted.\n- Likely cause: possible source API throttling, pipeline backlog, or platform‑wide latency – pending customer details.\n- Next steps: Await the five data points requested from the customer; then follow KB steps to isolate the bottleneck.\n- Escalation: Not required at this stage (Starter tier, P2).\n- Action: Add a reminder to inform TAM Yuki Tanaka of the At Risk status and upcoming renewal.",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "find_account",
+      "input": {
+        "by": "account_id",
+        "value": "ACC-3336"
+      },
+      "reason": "Verify ticket account exists and get correct company",
+      "result": "{\"found\": true, \"account_id\": \"ACC-3336\", \"company\": \"Omni Consumer Products\", \"plan_tier\": \"Business\", \"warning\": \"This account is Omni Consumer Products, but the ticket is from Gavin Belson Co. Probably the wrong account; look it up by company name.\"}"
+    },
+    {
+      "step": 2,
+      "tool": "find_account",
+      "input": {
+        "by": "company_name",
+        "value": "Gavin Belson Co"
+      },
+      "reason": "Find correct account for Gavin Belson Co",
+      "result": "{\"found\": true, \"account_id\": \"ACC-7397\", \"company\": \"Gavin Belson Co\", \"plan_tier\": \"Starter\"}"
+    },
+    {
+      "step": 3,
+      "tool": "get_account",
+      "input": {
+        "account_id": "ACC-7397"
+      },
+      "reason": "Get full account profile for ticket handling",
+      "result": "{\"account_id\": \"ACC-7397\", \"company\": \"Gavin Belson Co\", \"tam\": \"Yuki Tanaka\", \"plan_tier\": \"Starter\", \"arr_usd\": 96000, \"seats_licensed\": 1483, \"seats_active\": 1355, \"products\": [\"CloudSync\", \"WorkflowEngine\", \"DataBridge Pro\", \"SecureVault\"], \"health_status\": \"At Risk\", \"usage_trend\": \"Stable\", \"o"
+    },
+    {
+      "step": 4,
+      "tool": "get_ticket_history",
+      "input": {
+        "account_id": "ACC-7397",
+        "days": 90
+      },
+      "reason": "Check for duplicate or recurring performance issues",
+      "result": "{\"window_days\": 90, \"tickets\": [{\"ticket_id\": \"TKT-10121\", \"created_at\": \"2026-04-11T22:31:32.190062Z\", \"subject\": \"Error when accessing Scheduling in WorkflowEngine\", \"product\": \"WorkflowEngine\", \"product_area\": \"Scheduling\", \"category\": \"Onboarding\", \"urgency\": \"P4\", \"status\": \"In Progress\"}, {\"ti"
+    },
+    {
+      "step": 5,
+      "tool": "search_kb",
+      "input": {
+        "query": "DataBridge Pro performance slow API timeout"
+      },
+      "reason": "Find KB article for performance issues",
+      "result": "{\"results\": [{\"id\": \"products/databridge-pro#api\", \"heading\": \"API\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### API\\n\\nFull REST API available at `https://api.databridge.yourdomain.com/v3/`.\\n\\n- Authentication: Bearer token (API key from Settings \\u2192 API Keys)\\n-"
+    }
+  ],
+  "warnings": []
+}

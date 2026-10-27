@@ -1,0 +1,122 @@
+{
+  "ticket_id": "TKT-10197",
+  "customer": {
+    "account_id": "ACC-8956",
+    "company": "Hadley Industries",
+    "matched_by": "company_name",
+    "plan_tier": "Starter",
+    "health_status": "At Risk",
+    "usage_trend": "Increasing",
+    "renewal_date": "2026-10-19",
+    "tam": "Yuki Tanaka",
+    "open_ticket_ids": [
+      "TKT-10319",
+      "TKT-10178",
+      "TKT-10496"
+    ],
+    "escalation_notes": [
+      "Customer expressed frustration with response times in last sync",
+      "Procurement team requested pricing review",
+      "Decision maker considering competing vendor evaluation"
+    ]
+  },
+  "triage": {
+    "issue_type": "Performance",
+    "priority": "P2",
+    "team": "Performance & Reliability",
+    "rationale": "Dashboard loading 76 seconds impacts a time‑critical board presentation. Not a full outage but major impact, so P2. Performance issue requires Performance & Reliability team. Account is At Risk; AM should be kept informed.",
+    "escalate": false,
+    "escalation_reason": null,
+    "notify_account_manager": true,
+    "account_manager_reason": "Account health is At Risk and renewal is within 151 days; keep AM aware of high‑impact issue.",
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "needs_more_info": true,
+    "missing_info": [
+      "Scope of slowness (all SecureVault pages or only Key Management dashboard)",
+      "Browser name and version",
+      "Recent environment changes (network policies, VPN, new keys or policies)",
+      "Any error messages or console warnings",
+      "Attempts to clear cache or use a different network/device"
+    ]
+  },
+  "related_ticket_ids": [],
+  "kb_used": [
+    {
+      "doc_id": "troubleshooting/performance-and-integrations#step-1--identify-where-the-slowness-is",
+      "why": "Provides first‑step troubleshooting for UI slowness, helping identify whether the issue is UI‑wide or specific to a page."
+    }
+  ],
+  "kb_discarded": [],
+  "customer_reply": "Hi Sam,\n\nThank you for letting us know about the slow loading times on the SecureVault Key Management dashboard. I understand how important it is to have the dashboard ready for your board presentation.\n\nTo investigate the issue efficiently, could you please provide the following details?\n\n1. Does the slowness affect **only the Key Management dashboard** or **all SecureVault pages** (e.g., Settings, Secrets list)?\n2. Which **browser and version** are you using when you see the 76‑second load time?\n3. Have there been any **recent changes** in your environment (e.g., new network policies, VPN usage, recent deployment of new keys or policies)?\n4. Are you seeing any **error messages** or console warnings in the browser developer tools?\n5. Have you tried clearing the browser cache or accessing the dashboard from a **different network/device**?\n\nOnce we have this information, we can run targeted diagnostics and work toward a resolution before your presentation on Wednesday.\n\nLooking forward to your response.\n\nBest regards,\n[Your Name]\nSupport Engineer",
+  "internal_note": "- Account: ACC‑8956 (Hadley Industries) – Starter plan, At Risk health, renewal in 151 days.\n- Current urgency: ticket marked P3 but impact is high (76 s load, board presentation) → treat as P2.\n- No duplicate SecureVault dashboard tickets in last 90 days.\n- Relevant KB: troubleshooting/performance-and-integrations#step-1--identify-where-the-slowness-is (used).\n- No deprecated KB needed.\n- Next steps: Await missing info (scope, browser, environment changes, errors, cache/network test) then run performance diagnostics per KB.\n- Notify AM Yuki Tanaka due to At Risk status.\n- No escalation needed at this time.",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "find_account",
+      "input": {
+        "by": "account_id",
+        "value": "ACC-5748"
+      },
+      "reason": "Verify account exists and matches company Hadley Industries",
+      "result": "{\"found\": true, \"account_id\": \"ACC-5748\", \"company\": \"Nexus Data\", \"plan_tier\": \"Starter\", \"warning\": \"This account is Nexus Data, but the ticket is from Hadley Industries. Probably the wrong account; look it up by company name.\"}"
+    },
+    {
+      "step": 2,
+      "tool": "find_account",
+      "input": {
+        "by": "company_name",
+        "value": "Hadley Industries"
+      },
+      "reason": "Find correct account for Hadley Industries",
+      "result": "{\"found\": true, \"account_id\": \"ACC-8956\", \"company\": \"Hadley Industries\", \"plan_tier\": \"Starter\"}"
+    },
+    {
+      "step": 3,
+      "tool": "get_account",
+      "input": {
+        "account_id": "ACC-8956"
+      },
+      "reason": "Get full account profile for triage (plan tier, health, renewal, usage, escalation notes)",
+      "result": "{\"account_id\": \"ACC-8956\", \"company\": \"Hadley Industries\", \"tam\": \"Yuki Tanaka\", \"plan_tier\": \"Starter\", \"arr_usd\": 500000, \"seats_licensed\": 1690, \"seats_active\": 997, \"products\": [\"DataBridge Pro\", \"AnalyticsHub\", \"WorkflowEngine\", \"SecureVault\"], \"health_status\": \"At Risk\", \"usage_trend\": \"Increa"
+    },
+    {
+      "step": 4,
+      "tool": "get_ticket_history",
+      "input": {
+        "account_id": "ACC-8956",
+        "days": 90
+      },
+      "reason": "Check for duplicate or related tickets about dashboard performance",
+      "result": "{\"window_days\": 90, \"tickets\": [{\"ticket_id\": \"TKT-10114\", \"created_at\": \"2026-05-16T11:42:32.189834Z\", \"subject\": \"Feature request: export Pipeline Monitoring data to Okta\", \"product\": \"DataBridge Pro\", \"product_area\": \"Pipeline Monitoring\", \"category\": \"Feature Request\", \"urgency\": \"P4\", \"status\":"
+    },
+    {
+      "step": 5,
+      "tool": "search_kb",
+      "input": {
+        "query": "SecureVault dashboard loading slow performance troubleshooting"
+      },
+      "reason": "Find KB article for dashboard performance issues",
+      "result": "{\"results\": [{\"id\": \"troubleshooting/performance-and-integrations#step-1--identify-where-the-slowness-is\", \"heading\": \"Step 1 \\u2014 Identify where the slowness is\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Step 1 \\u2014 Identify where the slowness is\\n\\n- **UI slo"
+    },
+    {
+      "step": 6,
+      "tool": "search_kb",
+      "input": {
+        "query": "SecureVault Key Management dashboard performance"
+      },
+      "reason": "Find specific KB for SecureVault dashboard slowness",
+      "result": "{\"results\": [{\"id\": \"products/securevault#key-management\", \"heading\": \"Key Management\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Key Management\\n\\nCreate, rotate, and retire encryption keys.\\n\\n- **Key states:** `active`, `pending_rotation`, `retired`, `destroyed`\\"
+    },
+    {
+      "step": 7,
+      "tool": "search_kb",
+      "input": {
+        "query": "SecureVault dashboard performance troubleshooting key management dashboard slow"
+      },
+      "reason": "Find specific guidance for SecureVault dashboard slowness",
+      "result": "{\"results\": [{\"id\": \"products/securevault#key-management\", \"heading\": \"Key Management\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Key Management\\n\\nCreate, rotate, and retire encryption keys.\\n\\n- **Key states:** `active`, `pending_rotation`, `retired`, `destroyed`\\"
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,98 @@
+{
+  "ticket_id": "TKT-10455",
+  "customer": {
+    "account_id": "ACC-3336",
+    "company": "Omni Consumer Products",
+    "matched_by": "company_name",
+    "plan_tier": "Business",
+    "health_status": "At Risk",
+    "usage_trend": "Inactive",
+    "renewal_date": "2026-08-19",
+    "tam": "Rohan Mehta",
+    "open_ticket_ids": [
+      "TKT-10073",
+      "TKT-10393"
+    ],
+    "escalation_notes": [
+      "3 consecutive P1 tickets in the last 30 days",
+      "Decision maker considering competing vendor evaluation"
+    ]
+  },
+  "triage": {
+    "issue_type": "Billing",
+    "priority": "P4",
+    "team": "Billing",
+    "rationale": "Customer asks why invoice shows more seats than active users and requests a credit. This is a standard billing inquiry with no outage or data loss, appropriate for Tier 1 Billing support.",
+    "escalate": false,
+    "escalation_reason": null,
+    "notify_account_manager": true,
+    "account_manager_reason": "Account health is At Risk, usage trend is Inactive, and escalation notes indicate competitor evaluation.",
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "needs_more_info": true,
+    "missing_info": [
+      "Provide a list (e.g., CSV) of user IDs or email addresses you believe were over‑billed for the last billing period."
+    ]
+  },
+  "related_ticket_ids": [],
+  "kb_used": [
+    {
+      "doc_id": "billing/billing-and-plans#how-seat-billing-works",
+      "why": "Explains seat counting rules and why billed seats can exceed currently active users."
+    }
+  ],
+  "kb_discarded": [],
+  "customer_reply": "Hi Quinn,\n\nThank you for reaching out about invoice #60685.\n\n**How seat billing works**\nA “seat” is counted for any user who was active (logged in or made an API call) at least once during the billing month. Seats are tallied at the end of the month, and deactivating a user does **not** reduce the seat count until the following billing cycle. Therefore, it’s possible to be billed for more seats than the number of users you see active today.\n\n**What you can do next**\n\n1. Review the list of users who were active during the last billing period.\n2. Identify any accounts that were inactive for the majority of the month but were still counted as seats.\n3. Share that list with us (e.g., a CSV of the user IDs or email addresses you believe were over‑billed).\n\nOnce we have the details, our finance team can audit the usage and, if an error is found, issue a credit for the affected seats.\n\nIf you have any questions about how to export the user activity report, just let me know and I’ll guide you through the steps.\n\nBest regards,\n[Your Name]\nCustomer Support – DataBridge Pro",
+  "internal_note": "- Account: ACC-3336 – Omni Consumer Products\n- Plan tier: Business (ticket incorrectly listed Enterprise)\n- Health: At Risk; Usage trend: Inactive\n- Renewal: 146 days away (outside 90‑day window)\n- Churn signals: competitor evaluation, recent P1 tickets (unrelated)\n- Duplicate: No recent billing tickets found.\n- KB used: billing/billing-and-plans#how-seat-billing-works (current). No deprecated content.\n- Likely cause: Customer misunderstanding of seat‑counting rules (seats based on activity during billing month).\n- Next steps:\n  1. Send explanation and request list of potentially over‑billed seats (as in customer reply).\n  2. Forward the customer’s seat list to Finance for audit/credit if applicable.\n  3. Notify TAM Rohan Mehta (account manager) of the interaction because the account is At Risk, usage is inactive, and churn signals exist.",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "find_account",
+      "input": {
+        "by": "account_id",
+        "value": "ACC-8250"
+      },
+      "reason": "Verify ticket account exists and get company info",
+      "result": "{\"found\": false, \"note\": \"No account matches account_id='ACC-8250'. Try another key.\"}"
+    },
+    {
+      "step": 2,
+      "tool": "find_account",
+      "input": {
+        "by": "company_name",
+        "value": "Omni Consumer Products"
+      },
+      "reason": "Find correct account for Omni Consumer Products",
+      "result": "{\"found\": true, \"account_id\": \"ACC-3336\", \"company\": \"Omni Consumer Products\", \"plan_tier\": \"Business\"}"
+    },
+    {
+      "step": 3,
+      "tool": "get_ticket_history",
+      "input": {
+        "account_id": "ACC-3336",
+        "days": 90
+      },
+      "reason": "Check for duplicate or recent billing tickets",
+      "result": "{\"window_days\": 90, \"tickets\": [{\"ticket_id\": \"TKT-10488\", \"created_at\": \"2026-03-16T16:59:32.204579Z\", \"subject\": \"CloudSync running extremely slowly for our team\", \"product\": \"CloudSync\", \"product_area\": \"Bandwidth Limits\", \"category\": \"Bug\", \"urgency\": \"P4\", \"status\": \"Closed\"}, {\"ticket_id\": \"TK"
+    },
+    {
+      "step": 4,
+      "tool": "search_kb",
+      "input": {
+        "query": "seat true-up billing logic seats invoiced more than active users"
+      },
+      "reason": "Find billing KB for seat overage",
+      "result": "{\"results\": [{\"id\": \"billing/billing-and-plans#how-seat-billing-works\", \"heading\": \"How Seat Billing Works\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"## How Seat Billing Works\\n\\nA **seat** is any user account that was active (logged in or made an API call) at least on"
+    },
+    {
+      "step": 5,
+      "tool": "get_account",
+      "input": {
+        "account_id": "ACC-3336"
+      },
+      "reason": "Obtain plan tier, health, renewal, usage, escalation notes",
+      "result": "{\"account_id\": \"ACC-3336\", \"company\": \"Omni Consumer Products\", \"tam\": \"Rohan Mehta\", \"plan_tier\": \"Business\", \"arr_usd\": 500000, \"seats_licensed\": 1845, \"seats_active\": 1693, \"products\": [\"WorkflowEngine\", \"AnalyticsHub\"], \"health_status\": \"At Risk\", \"usage_trend\": \"Inactive\", \"open_tickets\": 7, \"p"
+    }
+  ],
+  "warnings": []
+}

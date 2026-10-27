@@ -1,0 +1,129 @@
+{
+  "ticket_id": "TKT-10388",
+  "customer": {
+    "account_id": "ACC-6702",
+    "company": "Weyland Corp",
+    "matched_by": "company_name",
+    "plan_tier": "Business",
+    "health_status": "Healthy",
+    "usage_trend": "Increasing",
+    "renewal_date": "2026-08-14",
+    "tam": "Rohan Mehta",
+    "open_ticket_ids": [
+      "TKT-10292",
+      "TKT-10163"
+    ],
+    "escalation_notes": []
+  },
+  "triage": {
+    "issue_type": "Integration",
+    "priority": "P2",
+    "team": "Integrations",
+    "rationale": "Customer sees 500 upstream_failure during OAuth token exchange with Snowflake. No duplicate found, not a data loss or security incident, and account is healthy; requires additional information before engineering involvement.",
+    "escalate": false,
+    "escalation_reason": null,
+    "notify_account_manager": false,
+    "account_manager_reason": null,
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "needs_more_info": true,
+    "missing_info": [
+      "Snowflake role being used and its granted privileges (USAGE, SELECT, etc.)",
+      "Whether a Snowflake network policy is active and if our platform IP ranges are allowed",
+      "Exact redirect URI configured in the Snowflake OAuth client (including trailing slash)",
+      "Screenshot of the DataBridge Pro connector configuration page (redacted for secrets)"
+    ]
+  },
+  "related_ticket_ids": [],
+  "kb_used": [
+    {
+      "doc_id": "troubleshooting/performance-and-integrations#snowflake-integration-common-issues",
+      "why": "Describes Snowflake role permissions, IP allow‑list, and warehouse suspension issues that cause authentication failures."
+    },
+    {
+      "doc_id": "products/databridge-pro#connector-authentication-failure",
+      "why": "Provides steps to regenerate OAuth token and verify redirect‑URI matching for DataBridge Pro connectors."
+    }
+  ],
+  "kb_discarded": [],
+  "customer_reply": "Hi Quinn,\n\nThank you for reaching out. I’m sorry you’re seeing the 500 Internal Server Error when trying to connect DataBridge Pro to Snowflake. Let’s work through a few common checks that usually resolve this type of authentication failure:\n\n1. **Snowflake role permissions** – The role assigned to the connector must have at least `USAGE` on the database and schema, plus `SELECT` (or `INSERT/UPDATE` as needed) on the target tables. Could you confirm which role you’re using and its granted privileges?\n\n2. **IP allow‑listing / network policy** – If Snowflake is configured with a network policy, the IP ranges used by our platform need to be added to the allow‑list. Please let us know whether a network policy is active and, if so, whether our IP ranges have been added.\n\n3. **Redirect URI** – The OAuth token exchange requires the redirect URI in Snowflake’s OAuth client to match exactly the one shown in the DataBridge Pro connector settings (including any trailing slash). Could you double‑check the URI for an exact match?\n\n4. **Connector configuration snapshot** – If possible, please share a screenshot of the connector settings page (redacted for any secrets). This helps us verify that the token, scopes, and other parameters are correctly set.\n\nOnce we have this information we can pinpoint the cause and get the integration working for you.\n\nLooking forward to your reply.\n\nBest regards,\n[Your Name]\nCustomer Support – DataBridge Pro",
+  "internal_note": "- Account: ACC-6702 (Weyland Corp) – Business tier, Healthy, renewal in >90 days, no churn signals.\n- Ticket: TKT-10388 – P2, category originally Data Loss (mis‑categorized).\n- Duplicate: No prior Snowflake‑related tickets in the last 90 days.\n- KB used:\n  * troubleshooting/performance-and-integrations#snowflake-integration-common-issues – role/IP/warehouse guidance.\n  * products/databridge-pro#connector-authentication-failure – OAuth token and redirect‑URI steps.\n- Likely cause: Missing Snowflake role permissions, IP allow‑list restriction, or redirect‑URI mismatch despite a valid token.\n- Next steps: Request role details, network policy status, exact redirect URI, and connector config screenshot. If still failing, involve Integrations engineering for deeper logs.",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "find_account",
+      "input": {
+        "by": "account_id",
+        "value": "ACC-9700"
+      },
+      "reason": "Verify account existence and company match for ticket",
+      "result": "{\"found\": false, \"note\": \"No account matches account_id='ACC-9700'. Try another key.\"}"
+    },
+    {
+      "step": 2,
+      "tool": "find_account",
+      "input": {
+        "by": "company_name",
+        "value": "Weyland Corp"
+      },
+      "reason": "Find correct account for Weyland Corp",
+      "result": "{\"found\": true, \"account_id\": \"ACC-6702\", \"company\": \"Weyland Corp\", \"plan_tier\": \"Business\"}"
+    },
+    {
+      "step": 3,
+      "tool": "get_account",
+      "input": {
+        "account_id": "ACC-6702"
+      },
+      "reason": "Get plan tier, health, renewal, usage, etc",
+      "result": "{\"account_id\": \"ACC-6702\", \"company\": \"Weyland Corp\", \"tam\": \"Rohan Mehta\", \"plan_tier\": \"Business\", \"arr_usd\": 12000, \"seats_licensed\": 955, \"seats_active\": 822, \"products\": [\"AnalyticsHub\", \"SecureVault\", \"DataBridge Pro\"], \"health_status\": \"Healthy\", \"usage_trend\": \"Increasing\", \"open_tickets\": 8"
+    },
+    {
+      "step": 4,
+      "tool": "get_ticket_history",
+      "input": {
+        "account_id": "ACC-6702",
+        "days": 90
+      },
+      "reason": "Check for duplicate or recurring integration issues",
+      "result": "{\"window_days\": 90, \"tickets\": [{\"ticket_id\": \"TKT-10292\", \"created_at\": \"2026-04-05T10:37:32.197479Z\", \"subject\": \"Data not syncing between CloudSync and HubSpot\", \"product\": \"CloudSync\", \"product_area\": \"Integrations\", \"category\": \"Feature Request\", \"urgency\": \"P2\", \"status\": \"In Progress\"}, {\"tic"
+    },
+    {
+      "step": 5,
+      "tool": "search_kb",
+      "input": {
+        "query": "DataBridge Pro Snowflake authentication error 500 upstream_failure"
+      },
+      "reason": "Find KB article for known issues",
+      "result": "{\"results\": [{\"id\": \"onboarding/onboarding-guide#step-3-product-configuration-days-25\", \"heading\": \"Step 3: Product configuration (Days 2\\u20135)\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Step 3: Product configuration (Days 2\\u20135)\\n\\nRefer to the relevant produ"
+    },
+    {
+      "step": 6,
+      "tool": "search_kb",
+      "input": {
+        "query": "Snowflake integration DataBridge Pro"
+      },
+      "reason": "Find Snowflake connector docs",
+      "result": "{\"results\": [{\"id\": \"onboarding/onboarding-guide#step-3-product-configuration-days-25\", \"heading\": \"Step 3: Product configuration (Days 2\\u20135)\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Step 3: Product configuration (Days 2\\u20135)\\n\\nRefer to the relevant produ"
+    },
+    {
+      "step": 7,
+      "tool": "read_kb",
+      "input": {
+        "doc_id": "troubleshooting/performance-and-integrations#snowflake-integration-common-issues"
+      },
+      "reason": "Read Snowflake integration common issues for authentication errors",
+      "result": "{\"id\": \"troubleshooting/performance-and-integrations#snowflake-integration-common-issues\", \"article\": \"Troubleshooting: Performance Issues\", \"heading\": \"Snowflake Integration: Common Issues\", \"content\": \"## Snowflake Integration: Common Issues\\n\\n1. **Warehouse suspended** \\u2014 Snowflake auto-susp"
+    },
+    {
+      "step": 8,
+      "tool": "read_kb",
+      "input": {
+        "doc_id": "products/databridge-pro#connector-authentication-failure"
+      },
+      "reason": "Read connector authentication failure guidance",
+      "result": "{\"id\": \"products/databridge-pro#connector-authentication-failure\", \"article\": \"DataBridge Pro \\u2014 Product Reference\", \"heading\": \"Connector authentication failure\", \"content\": \"### Connector authentication failure\\n\\n1. Regenerate the OAuth token from the connector settings page.\\n2. Ensure the r"
+    }
+  ],
+  "warnings": []
+}

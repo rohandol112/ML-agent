@@ -1,0 +1,117 @@
+{
+  "ticket_id": "TKT-10432",
+  "customer": {
+    "account_id": "ACC-8588",
+    "company": "Prestige Worldwide",
+    "matched_by": "company_name",
+    "plan_tier": "Professional",
+    "health_status": "Healthy",
+    "usage_trend": "Declining",
+    "renewal_date": "2026-08-04",
+    "tam": "Lucas Ferreira",
+    "open_ticket_ids": [],
+    "escalation_notes": []
+  },
+  "triage": {
+    "issue_type": "Feature Request",
+    "priority": "P4",
+    "team": "Product Management",
+    "rationale": "Customer requests a native export of Connectors data to BigQuery. No existing KB covers this, no duplicate ticket found. Feature request is low urgency (P4) and does not impact service availability. Notify account manager due to declining usage trend.",
+    "escalate": false,
+    "escalation_reason": null,
+    "notify_account_manager": true,
+    "account_manager_reason": "Account usage trend is declining; renewal in 120 days – proactive follow‑up recommended.",
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "needs_more_info": true,
+    "missing_info": [
+      "Number of pipelines or connectors to export to BigQuery",
+      "Approximate data volume per weekly export (rows/GB)",
+      "Specific formatting or partitioning requirements for the exported data"
+    ]
+  },
+  "related_ticket_ids": [
+    "TKT-10485",
+    "TKT-10154"
+  ],
+  "kb_used": [],
+  "kb_discarded": [
+    {
+      "doc_id": "products/databridge-pro#connectors",
+      "reason": "Article only lists available connectors; does not cover native export functionality",
+      "replaced_by": null
+    },
+    {
+      "doc_id": "products/analyticshub#data-sources",
+      "reason": "General data source overview; no guidance on exporting connector data to BigQuery",
+      "replaced_by": null
+    },
+    {
+      "doc_id": "products/databridge-pro#data-ingestion",
+      "reason": "Describes ingestion pipeline, not export from connectors to external warehouses",
+      "replaced_by": null
+    }
+  ],
+  "customer_reply": "Hi Casey,\n\nThank you for sharing the idea of a native “Export Connectors → BigQuery” capability. We’ve logged this as a feature request and will forward it to our product team for roadmap consideration.\n\nTo help us prioritize, could you let us know:\n\n1. How many pipelines or connectors you’d currently export to BigQuery?\n2. Approximate data volume (rows/GB) per weekly export.\n3. Any specific formatting or partitioning requirements for the exported data.\n\nWe’ll keep you posted on the status of this request. If there’s anything else you need in the meantime, just let us know.\n\nBest,\nThe DataBridge Support Team",
+  "internal_note": "- Account: ACC‑8588 (Prestige Worldwide) – Professional tier\n- Health: Healthy; Usage trend: Declining; Renewal in 120 days (beyond 90‑day window)\n- Issue classified as Feature Request, priority P4, routed to Product Management\n- No duplicate found in last 90 days; related tickets listed for reference\n- KB search returned only generic connector docs, which were discarded (see kb_discarded)\n- Needs additional info (pipeline count, data volume, formatting) before final scoping\n- Notify Account Manager (Lucas Ferreira) due to declining usage trend\n- No escalation required",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "find_account",
+      "input": {
+        "by": "account_id",
+        "value": "ACC-8941"
+      },
+      "reason": "Verify account exists and get company",
+      "result": "{\"found\": false, \"note\": \"No account matches account_id='ACC-8941'. Try another key.\"}"
+    },
+    {
+      "step": 2,
+      "tool": "find_account",
+      "input": {
+        "by": "company_name",
+        "value": "Prestige Worldwide"
+      },
+      "reason": "Find account for ticket company",
+      "result": "{\"found\": true, \"account_id\": \"ACC-8588\", \"company\": \"Prestige Worldwide\", \"plan_tier\": \"Professional\"}"
+    },
+    {
+      "step": 3,
+      "tool": "get_account",
+      "input": {
+        "account_id": "ACC-8588"
+      },
+      "reason": "Get full profile for correct account",
+      "result": "{\"account_id\": \"ACC-8588\", \"company\": \"Prestige Worldwide\", \"tam\": \"Lucas Ferreira\", \"plan_tier\": \"Professional\", \"arr_usd\": 48000, \"seats_licensed\": 1621, \"seats_active\": 901, \"products\": [\"DataBridge Pro\", \"CloudSync\", \"SecureVault\"], \"health_status\": \"Healthy\", \"usage_trend\": \"Declining\", \"open_t"
+    },
+    {
+      "step": 4,
+      "tool": "get_ticket_history",
+      "input": {
+        "account_id": "ACC-8588",
+        "days": 90
+      },
+      "reason": "Check for duplicate feature request tickets about BigQuery export",
+      "result": "{\"window_days\": 90, \"tickets\": [{\"ticket_id\": \"TKT-10485\", \"created_at\": \"2026-03-24T02:00:32.204473Z\", \"subject\": \"Dashboard loading times unacceptable \\u2014 DataBridge Pro\", \"product\": \"DataBridge Pro\", \"product_area\": \"Data Ingestion\", \"category\": \"Feature Request\", \"urgency\": \"P2\", \"status\": \"C"
+    },
+    {
+      "step": 5,
+      "tool": "search_kb",
+      "input": {
+        "query": "export connectors data to BigQuery"
+      },
+      "reason": "Find KB article about exporting data from Connectors to BigQuery",
+      "result": "{\"results\": [{\"id\": \"products/databridge-pro#connectors\", \"heading\": \"Connectors\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Connectors\\n\\nPre-built connectors are available for Salesforce, Snowflake, BigQuery, Jira, HubSpot, Slack, and 75+ others.\\n\\n- Connector ve"
+    },
+    {
+      "step": 6,
+      "tool": "search_kb",
+      "input": {
+        "query": "export data from connectors to bigquery"
+      },
+      "reason": "Find KB about exporting connector data to BigQuery",
+      "result": "{\"results\": [{\"id\": \"products/databridge-pro#connectors\", \"heading\": \"Connectors\", \"status\": \"current\", \"evidence\": null, \"replaced_by\": null, \"snippet\": \"### Connectors\\n\\nPre-built connectors are available for Salesforce, Snowflake, BigQuery, Jira, HubSpot, Slack, and 75+ others.\\n\\n- Connector ve"
+    }
+  ],
+  "warnings": []
+}
